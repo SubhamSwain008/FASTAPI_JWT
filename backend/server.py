@@ -22,7 +22,9 @@ async def Lifespan(app: FastAPI):
 app = FastAPI(lifespan=Lifespan) # type: ignore
 app.include_router(Rout)
 
-url=os.getenv("CLIENT_URL")
+url = os.getenv("CLIENT_URL")
+
+print(url)
 
 origins = [
     url

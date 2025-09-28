@@ -18,7 +18,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES =int(os.getenv('ACCESS_TOKEN_EXPIRES_IN', '300'))
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def login_using_token(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -74,3 +74,11 @@ def login(user: LoginUser):
 
     
     
+@Rout.get("/profile")
+async def profile(current:dict=Depends(login_using_token)):
+
+    return{
+        "username":current["username"],
+        "email":current["email"]
+
+    }
